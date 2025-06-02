@@ -2,31 +2,21 @@ cmake_minimum_required(VERSION 3.10)
 
 project(TextFileComparer)
 
-# Qt6
-set(Qt6_DIR "C:/Qt/6.9.0/mingw_64/lib/cmake/Qt6")
+cmake_policy(SET CMP0074 NEW)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-
-# Boost
-set(Boost_ROOT "C:/vcpkg/installed/x64-windows")
 find_package(Boost REQUIRED)
+find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 
-# ICU
-set(ICU_ROOT "C:/vcpkg/installed/x64-windows")
-find_package(ICU REQUIRED)
-
-add_executable(TextFileComparer
-    src/file_parser.cpp
-    src/comparer.cpp
-    src/matcher.cpp
-    src/gui.cpp
-    src/merger.cpp
-)
-
-target_link_libraries(TextFileComparer
-    Qt6::Widgets
-    Boost::Boost
-    ICU::ICU
-)
+set(ICU_INCLUDE_DIR /usr/include)
+set(ICU_LIBRARY /usr/lib/x86_64-linux-gnu/libicuuc.so)
+set(ICU_I18N_LIBRARY /usr/lib/x86_64-linux-gnu/libicui18n.so)
+find_package(ICU REQUIRED COMPONENTS i18n uc)
 
 enable_testing()
+add_subdirectory(src)
 add_subdirectory(tests)
